@@ -3,43 +3,19 @@ import React from "react";
 //State를 사용하려면 Class component를 써야만 한다.
 class App extends React.Component {
   state = {
-    count: 0,
+    isLoading: true,
   };
-
-  add = () => {
-    this.setState((current) => ({
-      count: current.count + 1,
-    }));
-  };
-  sub = () => {
-    this.setState((current) => ({
-      count: current.count - 1,
-    }));
-  };
-
-  // component life cycle
-  //component가 mount(만들어졌을 때)됐을 때
+  // 처음 render를 할 때 호출되는 life cycle method는 componentDidMount이다.
+  // 그래서 componentDidMount에서 data를 fetch하는 것으로써 data를 받아올 수 있다. ex)API를 통해 외부의 데이터 또한 받아올 수 있다.
+  // 그런 다음 가져온 데이터를 render하는 등의 작업을 수행
   componentDidMount() {
-    console.log("Component rendered");
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 6000);
   }
-  //component가 update(업데이트)됐을 때
-  componentDidUpdate() {
-    console.log("Component updated");
-  }
-  //component가 unmount(죽었을 때)됐을 때 ex)다른 페이지로 이동할 때
-  componentWillUnmount() {
-    console.log("Component unmount");
-  }
-
   render() {
-    console.log("I'm redering");
-    return (
-      <div>
-        <h1>The number is {this.state.count}</h1>
-        <button onClick={this.add}>Add</button>
-        <button onClick={this.sub}>Sub</button>
-      </div>
-    );
+    const { isLoading } = this.state;
+    return <div>{isLoading ? "Loading " : "we are ready"}</div>;
   }
 }
 

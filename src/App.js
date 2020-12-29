@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import Movie from "./Movies";
 
 //State를 사용하려면 Class component를 써야만 한다.
 class App extends React.Component {
@@ -8,9 +9,16 @@ class App extends React.Component {
   };
 
   getMovies = async () => {
-    const movies = await axios.get(
-      "https://yts-proxy.nomadcoders1.now.sh/list_movies.json"
+    //axios를 통해 API를 가져오고
+    const {
+      data: {
+        data: { movies },
+      },
+    } = await axios.get(
+      "https://yts-proxy.nomadcoders1.now.sh/list_movies.json?sort_by=rating"
     );
+    // setState를 통해 state에 값을 추가 및 loading상태 변경
+    this.setState({ movies, isLoading: false });
   };
   // 처음 render를 할 때 호출되는 life cycle method는 componentDidMount이다.
   // 그래서 componentDidMount에서 data를 fetch하는 것으로써 data를 받아올 수 있다. ex)API를 통해 외부의 데이터 또한 받아올 수 있다.
@@ -20,8 +28,24 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.state;
-    return <div>{isLoading ? "Loading " : "we are ready"}</div>;
+    const { isLoading, movies } = this.state;
+    return (
+      <div>
+        {isLoading
+          ? "Loading... "
+          : movies.map((movie) => (
+              <Movie
+                key={movie.id}
+                id={movie.id}
+                year={movie.year}
+                title={movie.title}
+                summary={movie.summary}
+                poster={movie.medium_cover_image}
+                trailer={movie.yt_trailer_code}
+              />
+            ))}
+      </div>
+    );
   }
 }
 

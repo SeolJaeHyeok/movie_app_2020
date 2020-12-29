@@ -2,7 +2,7 @@ import react from "react";
 import PropTypes from "prop-types";
 import "./Movie.css";
 
-function Movie({ year, title, poster, summary, genres, yt_trailer_code }) {
+function Movie({ year, title, poster, summary, genres }) {
   return (
     <div className="movie">
       <img src={poster} alt={title} title={title}></img>
@@ -16,7 +16,7 @@ function Movie({ year, title, poster, summary, genres, yt_trailer_code }) {
             </li>
           ))}
         </ul>
-        <p className="movie__summary">{summary}</p>
+        <p className="movie__summary">{summary.slice(0, 180)}...</p>
       </div>
     </div>
   );
@@ -28,7 +28,6 @@ Movie.propTypes = {
   title: PropTypes.string.isRequired,
   summary: PropTypes.string.isRequired,
   poster: PropTypes.string.isRequired,
-  trailer: PropTypes.string.isRequired,
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 

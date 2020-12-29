@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import Movie from "./Movies";
+import "./App.css";
 
 //State를 사용하려면 Class component를 써야만 한다.
 class App extends React.Component {
@@ -30,10 +31,14 @@ class App extends React.Component {
   render() {
     const { isLoading, movies } = this.state;
     return (
-      <div>
-        {isLoading
-          ? "Loading... "
-          : movies.map((movie) => (
+      <section class="container">
+        {isLoading ? (
+          <div class="loader">
+            <span class="loader_text">Loading...</span>
+          </div>
+        ) : (
+          <div class="movies">
+            {movies.map((movie) => (
               <Movie
                 key={movie.id}
                 id={movie.id}
@@ -44,7 +49,9 @@ class App extends React.Component {
                 trailer={movie.yt_trailer_code}
               />
             ))}
-      </div>
+          </div>
+        )}
+      </section>
     );
   }
 }
